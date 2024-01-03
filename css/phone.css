@@ -1,0 +1,9 @@
+        #panels {
+            max-width: 500px;
+        }
+
+        #hangup_btn,
+        #cancel_outgoing_call_btn {
+            background-color: lightpink;
+            border-color: lightpink;
+        }
