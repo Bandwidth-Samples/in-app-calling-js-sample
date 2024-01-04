@@ -1,6 +1,5 @@
 import {BandwidthUA} from "../node_modules/@bandwidth/bw-webrtc-sdk";
 
-
 let phone = new BandwidthUA();
 let activeCall = null;
 let callTo='441138688226';
