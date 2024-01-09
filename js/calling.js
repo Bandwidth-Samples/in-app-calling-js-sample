@@ -1,35 +1,23 @@
-import {BandwidthUA} from "../node_modules/@bandwidth/bw-webrtc-sdk";
+import {BandwidthUA} from  "../node_modules/@bandwidth/bw-webrtc-sdk";
 
 let phone = new BandwidthUA();
 let activeCall = null;
-let callTo='441138688226';
+ let callTo;
 let token;
 let serverConfig = {
     domain: 'sbc.webrtc-app.bandwidth.com',
-   // domain: 'gw.webrtc-app.bandwidth.com',
     addresses: ['wss://sbc.webrtc-app.bandwidth.com:10081'],
-   // addresses: ['wss://gw.webrtc-app.bandwidth.com:10081'],
     iceServers: ['stun.l.google.com:19302', 'stun1.l.google.com:19302', 'stun2.l.google.com:19302'],
-    token: 'eyJraWQiOiJzZ25tLTE3OWU3Y2NkLTM0MzQtNGY5Yi05MjhlLWNkN2Y1ODEyNjNkNyIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiJ2c3JpdmFzdGF2YV9hcGkiLCJhdWQiOiJiYW5kd2lkdGguY29tIiwic2NwIjpbXSwiYWNjZXNzX3R5cGUiOiJBUEkiLCJyb2xlcyI6WyJPcmRlcmluZyIsIlNJUCBDcmVkZW50aWFscyIsIkNvbmZpZ3VyYXRpb24iLCJ0ZXN0Um9sZSIsInZvaWNlX2luc2lnaHRzIiwiSHR0cFZvaWNlIiwiSFRUUCBBcHBsaWNhdGlvbiBNYW5hZ2VtZW50IiwiUmVwb3J0aW5nIl0sImlzcyI6Imh0dHBzOi8vaWQuYmFuZHdpZHRoLmNvbS9hcGkvdjEiLCJhY2N0X3Njb3BlIjoiQWNjb3VudCIsImFjY291bnRzIjpbIjk5MDEwNzgiXSwiZXhwIjoxNzA0NDQ5NTk1LCJpYXQiOjE3MDQ0NDk1MzUsImp0aSI6ImEyOWE1UnhrUUI5Sk84MTJmNFFRT0prIn0.VvN5wbRVoQRIkElnWZ_jUIGx3gjlPr2M43sP6_cVpEu9UdMrjUq9nawatsfgZDl3x8EqU-QdjHE9z2lTrqSbehaaqOEu5LZvzG0ugR3aAoGnQEIGatQjETtzCWMnzYLn7q0j-PcHrFODjGYCj-oW3V1NhyoQvVtJRqt9mHJPMgFl--nSQsE-qDp-cZinLNqgMHYpga9Cx-b5xGbVYGcDR9IjmDjmKHTlxmCgJdyNlBtlgWe_Gwka6taVeZw4MmjGGFp3_bctYtp3hDrhY9Owc5yAv1PAvOpxPRweLs8-HhbwvHiHLiDH4x7Apr2hd7GamoTHOMxUCkJoDz29mr0QLA'
+     token: "",
 };
-let config = {
-    // Call
-    call: 'Victoria',
-    caller: '12345',
-    callerDN: '12345',
-};
-
-window.onload=documentData();
+const myButton = document.querySelector(".mybutton");
 function documentData() {
+  //  console.log(process.env.AUTH_TOKEN);
+   // console.log(process.en);
 
+    console.log("Inside doc data");
     phone.setAcLogger(bw_log);
     phone.setJsSipLogger(console.log);
-
-    bw_log(`------ Date: ${new Date().toDateString()} -------`);
-    bw_log(`Bandwidth WebRTC SDK. Simple click-to-call`);
-    bw_log(`SDK: ${phone.version()}`);
-    bw_log(`SIP: ${JsSIP.C.USER_AGENT}`);
-
 
     // Check WebRTC support.
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
@@ -48,10 +36,10 @@ function documentData() {
         return;
      }
 
-    let server = getParameter('server', null);
-    if (server !== null) {
-        serverConfig.addresses = [server];
-    }
+    // let server = getParameter('server', null);
+    // if (server !== null) {
+      //  serverConfig.addresses = [server];
+    //}
     token = serverConfig.token;
 
     guiInit();
@@ -67,6 +55,7 @@ function documentData() {
             guiError(e);
         })
 }
+myButton.onclick = documentData();
 
 function bw_log() {
     let args = [].slice.call(arguments)
@@ -174,17 +163,21 @@ function onBeforeUnload() {
 
 function guiInit() {
     window.addEventListener('beforeunload', onBeforeUnload);
-    //document.getElementById('cancel_outgoing_call_btn').onclick = guiHangup;
+    document.getElementById('cancel_outgoing_call_btn').onclick = guiHangup;
 
 }
 
 function guiMakeCall(callTo) {
+    console.log("test call to",callTo);
+
     if (activeCall !== null)
         throw 'Already exists active call';
-    document.getElementById('outgoing_call_user').innerText = callTo;
+    document.getElementById('outgoing_call_user').innerText = callTo.toString();
     document.getElementById('outgoing_call_progress').innerText = '';
     document.getElementById('call_established_user').innerText = callTo;
+
     guiInfo('');
+
     guiShowPanel('outgoing_call_panel');
     let extraHeaders = [`User-to-User:eyJhbGciOiJIUzI1NiJ9.WyJoaSJd.-znkjYyCkgz4djmHUPSXl9YrJ6Nix_XvmlwKGFh5ERM;encoding=jwt,aGVsbG8gd29ybGQ;encoding=base64`];
     activeCall = phone.call(phone.AUDIO, callTo, extraHeaders);
@@ -197,7 +190,6 @@ function guiHangup() {
     }
 }
 
-//--------------- Status line -------
 function guiError(text) { guiStatus(text, 'Pink'); }
 
 function guiWarning(text) { guiStatus(text, 'Gold'); }
@@ -217,7 +209,18 @@ function guiShowPanel(activePanel) {
         if (panel === activePanel) {
             guiShow(panel);
         } else {
+            console.log("panel"+panel);
             guiHide(panel);
         }
     }
 }
+
+function guiShow(id) {
+    document.getElementById(id).style.display = 'block';
+}
+
+function guiHide(id) {
+    document.getElementById(id).style.display = 'none';
+}
+
+
