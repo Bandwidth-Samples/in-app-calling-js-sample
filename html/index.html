@@ -1,21 +1,53 @@
 <!DOCTYPE html>
 <html lang="">
 <head>
-    <title>Text Box Form</title>
-    <script type="module" src="../js/calling.js" >
+    <script type="module" src="../js/calling.js">
+
+
     </script>
 </head>
 <body >
-    <div id="status_line">
-    </div>
 
+    <div id="status_line" style="background-color: Gold">Call terminated: Not Found
+    </div>
     <form id="my-form">
-        Call to: <input type="text" size="26"
-                        name="callTo"
-                        placeholder="phone number"
-                        title="phone number"><br>
-        <br>
-        <input type="submit" value="Call" onclick="documentData()">
+        <br> Call to: <input type="text" size="26" name="callTo" placeholder="user name or phone number"
+                                 title="callee user name or phone number"><br>
+
+        <input class="mybutton" type="submit" value="Call" >
     </form>
+<!--  <div id="status_line_data" style="background-color: Gold">Call terminated: Not Found</div>-->
+
+    <div id="panels">
+        <div id="call_terminated_panel" class="panel" style="display: none;">
+            <p>Call terminated: Not Found</p><p>Thank you</p>
+        </div>
+        <div id="outgoing_call_panel" class="panel" style="display: none;">
+            <fieldset>
+                <legend>calling</legend>
+                <p id="outgoing_call_user">+917973532006</p>
+                <p id="outgoing_call_progress"></p>
+                <br>
+                <input id="cancel_outgoing_call_btn" type="button" value="Cancel">
+            </fieldset>
+        </div>
+        <div id="call_established_panel" class="panel" style="display: none;">
+            <div>
+                <fieldset>
+                    <legend>open call</legend>
+                    <p id="call_established_user">+19767616763</p>
+                    <br>
+                    <input id="hangup_btn" type="button" value="Hangup">
+                    <br>
+                    <input id="mute_audio_btn" type="button" value="Mute">
+                    <br>
+                </fieldset>
+            </div>
+        </div>
+
+    </div>
+    <div id="video_view">
+        <video id="remote_audio" autoplay="" playsinline=""></video>
+    </div>
 </body>
 </html>
