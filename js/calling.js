@@ -33,8 +33,8 @@ function documentData() {
 
     phone.checkAvailableDevices()
         .then(() => {
-            let caller = getParameter('caller', '+19197691662');
-            let callerDN = getParameter('callerDN', '+19197691662');
+            let caller = getParameter('caller', '+111111111111');
+            let callerDN = getParameter('callerDN', '+11111111111');
             initSipStack({ user: caller, displayName: callerDN, password: '' });
         })
         .catch((e) => {
